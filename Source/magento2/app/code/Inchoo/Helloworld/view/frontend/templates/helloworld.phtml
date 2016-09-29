@@ -1,0 +1,48 @@
+<h1><?php echo $this->getHelloWorldTxt(); ?></h1>
+<?php
+
+$om =   \Magento\Framework\App\ObjectManager::getInstance();
+$cartData = $om->create('Magento\Checkout\Model\Cart')->getQuote()->getAllVisibleItems();
+$cartDataCount = count( $cartData );
+$cart = $om->get('\Magento\Checkout\Model\Cart');
+$tokka = $om->get('\Magento\Catalog\Block\Product\ListProduct');
+$subTotal = $cart->getQuote()->getSubtotal();
+$grandTotal = $cart->getQuote()->getGrandTotal();
+
+?>
+<div class="bagDrop" id="bagDrop">
+    <h1><a href="<?php echo $block->getShoppingCartUrl(); ?>">Quote Basket</a></h1>
+    <?php if( $cartDataCount > 1 ): ?>
+        <a href="#" class="arr up off" id="bagDropScrollUp"></a>
+    <?php endif; ?>
+    <div class="bagDropWindow">
+    <?php if( $cartDataCount > 0 ): ?>
+        <div class="bagDropList" id="bagDropList">
+            <?php foreach( $cartData as $item ): ?>
+                <?php $product = $item->getProduct(); ?>
+                <?php $product_id = $product->getId() ?>
+                <?php $image = $product['small_image'] == '' ? '/pub/static/frontend/Magento/luma/en_US/Magento_Catalog/images/product/placeholder/small_image.jpg' : '/pub/media/catalog/product' . $product['small_image']; ?>
+                <a href="<?php echo $product['request_path']; ?>" class="bagDropListItem">
+                    <img src="http://localhost/magento2<?php echo $image; ?>" height="165" width="165">
+                    <p>
+                        <span class="name"><?php echo $product['name']; ?></span><br>
+                        <span class="sku"> <?php echo $product['sku']; ?></span>
+                        <span class="qty">Requested:x <?php echo $item->getQty(); ?></span>
+                        <span class="price"> <?php echo $product['price']; ?></span>
+                        <span class="price"><?php echo $item->getPriceRender(); ?></span>
+                        <span class="price"><?php echo $item->getRowTotalHtml($item); ?></span>
+                    </p>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <div class="emptyList">No products in your basket.</div>
+    <?php endif; ?>
+    </div>
+    <?php if( $cartDataCount > 1 ): ?>
+        <a href="#" class="arr dn" id="bagDropScrollDown"></a>
+    <?php endif; ?>
+    <span class="price"><?php echo $subTotal; ?></span>
+    <span class="price"><?php echo $grandTotal; ?></span>
+</div>
+
