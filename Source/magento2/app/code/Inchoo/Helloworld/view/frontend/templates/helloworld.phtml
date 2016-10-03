@@ -19,7 +19,8 @@ $address = $cart->getQuote()->getShippingAddress();
 
 
 <div class="bagDrop" id="bagDrop">
-    <h1>Quote</h1>
+    <h1><a href="http://localhost/magento2/checkout/cart">Quote</a></h1>
+    <a href="http://localhost/magento2/printpdf"><button>Printpdf</button></a>
     <h2><?php $mydate=getdate(date("U"));echo "$mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";?></h2>
     <?php if( $cartDataCount > 1 ): ?>
         <a href="#" class="arr up off" id="bagDropScrollUp"></a>
@@ -31,16 +32,19 @@ $address = $cart->getQuote()->getShippingAddress();
                 <?php $product = $item->getProduct(); ?>
                 <?php $product_id = $product->getId() ?>
                 <?php $image = $product['small_image'] == '' ? '/pub/static/frontend/Magento/luma/en_US/Magento_Catalog/images/product/placeholder/small_image.jpg' : '/pub/media/catalog/product' . $product['small_image']; ?>
+                <div style="hover :">
                 <a href="<?php echo $product['request_path']; ?>" class="bagDropListItem">
-                    <img src="http://localhost/magento2<?php echo $image; ?>" height="165" width="165">
+                    
                     <p>
-                        <span class="name"><?php echo $product['name']; ?></span><br>
-                        <span class="sku"> <?php echo $product['sku']; ?></span>
-                        <span class="qty">Requested:x <?php echo $item->getQty(); ?></span>
-                        <span class="price"> <?php echo $product['price']; ?></span>
-                        <span class="price"><?php echo $item->getRowTotalInclTax();; ?></span>
+                       <h2>Name: <span class="name"><?php echo $product['name']; ?></span><br></h2>
+                       <img src="http://localhost/magento2<?php echo $image; ?>" height="165" width="165">
+                        </a>
+                        <h3>SKU:<span class="sku"> <?php echo $product['sku']; ?></span></h3>
+                        <h3>Quantity-<span class="qty">Requested:x <?php echo $item->getQty(); ?></span></h3>
+                        <h3>Price:<span class="price"> <?php echo $product['price']; ?></span></h3>
+                        <h3>Product-Subtotal:<span class="price"><?php echo $item->getRowTotalInclTax();; ?></span></h3>
                     </p>
-                </a>
+                
             <?php endforeach; ?>
         </div>
     <?php else: ?>
@@ -50,10 +54,12 @@ $address = $cart->getQuote()->getShippingAddress();
     <?php if( $cartDataCount > 1 ): ?>
         <a href="#" class="arr dn" id="bagDropScrollDown"></a>
     <?php endif; ?>
-    <span class="price"><?php echo $subTotal; ?></span>
-    <span class="price"><?php echo $grandTotal; ?></span>
+    <h2 style="float: right">Total-Subtotal:<span class="price"><?php echo $subTotal; ?></span> </h2><br>
+    <br>
+    <h2 style="float: right">Great Grand Total:<span class="price"><?php echo $grandTotal; ?></span></h2>
  
 
 
 </div>
 
+    
