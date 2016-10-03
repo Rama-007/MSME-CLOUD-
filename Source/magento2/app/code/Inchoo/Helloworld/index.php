@@ -1,14 +1,18 @@
 <?php
+require_once("dompdf/dompdf_config.inc.php");
+spl_autoload_register('DOMPDF_autoload');
 
-require_once 'dompdf/autoload.inc.php';
+function pdf_create($html,$filename, $paper , $orientation ,$stream=TRUE){
+	$dompdf = new DOMPDF();
+	$dompdf->set_paper($paper, $orientation);
+	$dompdf->load_html($html);
+	$dompdf->render();
+	$dompdf->stream($filename."pdf");
+}
 
-use Dompdf\Dompdf;
+$filename = 'Quote';
+$dompdf = new DOMPDF();
+$html = file_get_contents('/var/www/html/magento2/app/code/Inchoo/Helloworld/view/frontend/templates/helloworld.phtml')
+pdf_create($html,$filename,'A4' ,'portrait');
 
-$domdpf = new Dompdf();
-$html=file_get_contents("view/frontend/templates/helloworld.phtml");
-$domdpf = loadHtml($html);
-$domdpf->setPaper('A4','landscape');
-$domdpf->render();
-
-$domdpf->stream('codexworld',array('Attachment'=>0));
 ?>
