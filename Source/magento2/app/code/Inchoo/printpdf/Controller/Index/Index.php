@@ -1,6 +1,6 @@
 <?php
  
-namespace Inchoo\Helloworld\Controller\Index;
+namespace Inchoo\printpdf\Controller\Index;
  
 use Magento\Framework\App\Action\Context;
  
@@ -14,6 +14,19 @@ class Index extends \Magento\Framework\App\Action\Action
         parent::__construct($context);
     }
  
+    public function printAction()
+{
+    if (($cardCode = $this->getRequest()->getParam('code'))) {
+        $this->loadLayout('print');
+
+        $this->getResponse()->clearHeaders()
+                            ->setHeader('Content-Type', 'application/pdf');
+        $this->renderLayout();
+    } else {
+        $this->_redirect('/');
+    }
+}
+    
     public function execute()
     {
         $resultPage = $this->_resultPageFactory->create();

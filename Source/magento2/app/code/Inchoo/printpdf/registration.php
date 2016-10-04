@@ -2,6 +2,6 @@
  
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Inchoo_Helloworld',
+    'Inchoo_printpdf',
     __DIR__
 );
