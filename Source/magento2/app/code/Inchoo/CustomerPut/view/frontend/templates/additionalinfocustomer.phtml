@@ -1,0 +1,59 @@
+
+
+
+
+<script type="text/javascript">
+require([
+'jquery', // jquery Library
+'jquery/ui', // Jquery UI Library
+'jquery/validate', // Jquery Validation Library
+'mage/translate' // Magento text translate (Validation message translte as per language)
+], function($){ 
+$.validator.addMethod(
+'validate-custom-name', function (value) {
+var flag=0;
+jQuery.get('http://localhost/output.txt', function(data) {
+	var x='"'+value+'"';
+	var n=data.indexOf(x);
+	if(n>-1)
+	{
+		alert("Valid Company :-)")
+	}
+	else
+	{
+		alert("please enter valid company");
+	}
+});
+
+function isAlpha(str) {
+  return /^[a-zA-Z]$/.test(str);
+}
+
+function isInt(str) {
+        return /^[0-9]$/.test(str);
+    }
+
+//var flag = <?php //echo find_user('temp');?>;
+if(value.length==21 && isAlpha(value[0]) && isAlpha(value[6])&&isAlpha(value[7]) && isAlpha(value[12])&& isInt(value[8]) && isInt(value[19]))
+{
+	flag=1;
+}
+return (flag!==0); // Validation logic here
+}, $.mage.__('Enter Valid name'));
+ 
+});
+</script>
+<fieldset class="fieldset create account" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
+        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Additional Information') ?></span></legend><br></p>
+ 
+<p>        <div class="field my_attribute required">
+            <label for="CIN" class="label"><span><?php /* @escapeNotVerified */ echo __('CIN') ?></span></label>
+            <div class="control">
+           
+                <input type="text" name="CIN"  id="CIN" title="<?php /* @escapeNotVerified */ echo __('CIN') ?>" class="input-text" data-validate="{required:true,'validate-custom-name':true}" autocomplete="off">
+                
+            </div>
+        </div>
+        </div>
+    </fieldset>
+
